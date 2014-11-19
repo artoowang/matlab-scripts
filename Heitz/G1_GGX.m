@@ -6,9 +6,14 @@ function result = G1_GGX(wo, wn, alpha)
     cos_theta_o = wo(3);
     theta_o = acos(cos_theta_o);
     % When theta_o == 0, a == Inf, and later 1/a^2 == 0
-    a = 1 / (alpha * tan(theta_o));
-    lambda = (-1 + sqrt(1 + 1 / a^2)) / 2;
-    result = 1 / (1 + lambda);
+    % But to avoid divide-by-zero warning msg, we still handle it here
+    if (theta_o == 0)
+        result = 1;
+    else
+        a = 1 / (alpha * tan(theta_o));
+        lambda = (-1 + sqrt(1 + 1 / a^2)) / 2;
+        result = 1 / (1 + lambda);
+    end
     result = repmat(result, [1 size(wn, 2)]);
     wo_dot_wn = wo' * wn; % 1xN
     result(wo_dot_wn < 0) = 0;

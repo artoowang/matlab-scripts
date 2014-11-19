@@ -4,7 +4,7 @@
 % G1: @(wo, wn, D)
 % F: @(costheta)
 % vals: 1xN vector
-function val = f_G1_diffuse(wis, wo, D, G1, F, Sample)
+function val = f_G1_diffuse(wis, wo, D, G1, F, Sample, numSamples)
     N = size(wis, 2);
     val = zeros(1, N);
     
@@ -20,7 +20,7 @@ function val = f_G1_diffuse(wis, wo, D, G1, F, Sample)
                 val(i) = monteCarloIntegrate(...
                     @(w) integrandOverWm(w, wis(:, i), wo, D, G1, F), ...
                     Sample, ...
-                    10000);
+                    numSamples);
             else
                 % Otherwise, use quad2d
                 val(i) = quad2d(@(theta, phi) integrandOverWmThetaPhi(...
