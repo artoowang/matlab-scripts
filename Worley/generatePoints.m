@@ -1,0 +1,3 @@
+function pts = generatePoints()
+    
+end
